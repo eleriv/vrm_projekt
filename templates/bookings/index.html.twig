@@ -7,21 +7,17 @@
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" media="screen" href="/css/normalize.css">
     <link rel="stylesheet" type="text/css" media="screen" href="/css/base.css">
-
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/menu.css">
 {% endblock %}
 
 
 {% block body %}
-    <div class="header">
-        <img src="/images/notebook.svg" class="header-pic">
-        <span class="header-heading">
-            Hotel Booking Aplication
-        </span>
-    </div>
-    <div class="content"></div>
-    <div class="footer">
-        <div class="footer-text">
-            Created by TKHK VS19
+    {{ include('bookings/header.html.twig') }}
+    {{ include('bookings/menu.html.twig') }}
+    <div class="content">
+        <div class="content">
+            {% block content %}{% endblock %}
         </div>
     </div>
+    {{ include('bookings/footer.html.twig') }}
 {% endblock %}

@@ -1,8 +1,12 @@
 <?php
+
+
 namespace App\Controller;
+
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
@@ -22,10 +26,11 @@ use App\Entity\Booking;
 class BookingIndex extends AbstractController
 {
     /**
-     * @Route("/create_booking")
+     * @Route("/", name="create_booking")
      */
     public function create_booking(Request $request)
     {
+        $this->generateUrl('create_booking');
         $form = $this->createFormBuilder()
             ->add('firstName', TextType::class, [
                 'required' => true
@@ -66,7 +71,8 @@ class BookingIndex extends AbstractController
                 'required' => true
             ])
             ->add('additionalInformation', TextareaType::class, [
-                'required' => false
+                'required' => false,
+                'empty_data' => 'no additional information'
             ])
             ->add('submit', SubmitType::class, ['label' => 'Create Bookings'])
             ->getForm();
@@ -112,6 +118,9 @@ class BookingIndex extends AbstractController
      */
     public function bookings()
     {
-        return $this->render('bookings/bookings.html.twig');
+        $this->generateUrl('bookings');
+        $repository = $this->getDoctrine()->getRepository(Booking::class);
+        $bookings = $repository->findAll();
+        return $this->render('bookings/list.html.twig', ['bookings' => $bookings]);
     }
 }
